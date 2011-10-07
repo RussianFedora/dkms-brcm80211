@@ -1,0 +1,51 @@
+diff -uNdr brcm80211.orig/brcmfmac/Makefile brcm80211/brcmfmac/Makefile
+--- brcm80211.orig/brcmfmac/Makefile	2011-10-06 13:43:08.000000000 +0400
++++ brcm80211/brcmfmac/Makefile	2011-10-06 14:20:48.273281577 +0400
+@@ -35,5 +35,5 @@
+ 	bcmsdh.o \
+ 	bcmsdh_sdmmc.o
+ 
+-obj-$(CONFIG_BRCMFMAC) += brcmfmac.o
++obj-m += brcmfmac.o
+ brcmfmac-objs += $(DHDOFILES)
+diff -uNdr brcm80211.orig/brcmsmac/Makefile brcm80211/brcmsmac/Makefile
+--- brcm80211.orig/brcmsmac/Makefile	2011-10-06 13:43:08.000000000 +0400
++++ brcm80211/brcmsmac/Makefile	2011-10-06 14:20:48.006278437 +0400
+@@ -54,5 +54,5 @@
+ 
+ MODULEPFX := brcmsmac
+ 
+-obj-$(CONFIG_BRCMSMAC)	+= $(MODULEPFX).o
++obj-m	+= $(MODULEPFX).o
+ $(MODULEPFX)-objs	= $(BRCMSMAC_OFILES)
+diff -uNdr brcm80211.orig/brcmutil/Makefile brcm80211/brcmutil/Makefile
+--- brcm80211.orig/brcmutil/Makefile	2011-10-06 13:43:08.000000000 +0400
++++ brcm80211/brcmutil/Makefile	2011-10-06 14:20:48.345282428 +0400
+@@ -25,5 +25,5 @@
+ 
+ MODULEPFX := brcmutil
+ 
+-obj-$(CONFIG_BRCMUTIL)	+= $(MODULEPFX).o
++obj-m	+= $(MODULEPFX).o
+ $(MODULEPFX)-objs	= $(BRCMUTIL_OFILES)
+diff -uNdr brcm80211.orig/Makefile brcm80211/Makefile
+--- brcm80211.orig/Makefile	2011-10-06 13:43:08.000000000 +0400
++++ brcm80211/Makefile	2011-10-06 14:20:48.321282147 +0400
+@@ -18,7 +18,14 @@
+ # common flags
+ subdir-ccflags-y					:= -DBCMDMA32
+ subdir-ccflags-$(CONFIG_BRCMDBG)	+= -DBCMDBG
++subdir-ccflags-y			+= \
++					-I$(src)/brcmfmac	\
++					-I$(src)/include	\
++					-I$(src)/util		\
++					-I$(src)/brcmsmac	\
++					-I$(src)/brcmsmac/phy
+ 
+-obj-$(CONFIG_BRCMUTIL)	+= brcmutil/
+-obj-$(CONFIG_BRCMFMAC)	+= brcmfmac/
+-obj-$(CONFIG_BRCMSMAC)	+= brcmsmac/
++
++obj-m	+= brcmutil/
++obj-m	+= brcmfmac/
++obj-m	+= brcmsmac/
